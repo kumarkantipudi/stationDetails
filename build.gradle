@@ -1,0 +1,57 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.13.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath 'org.apache.openjpa:openjpa:2.4.1' 
+        classpath 'at.schmutterer.oss.gradle:gradle-openjpa:0.2.0'
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'openjpa'
+
+openjpa {
+    files = fileTree(sourceSets.main.output.classesDir).matching {
+        include '**/stationDetails/domain/*.class' 
+       
+    }
+       addDefaultConstructor = "true"
+       enforcePropertyRestrictions ="true"
+      
+}
+
+
+group = 'com.org'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+//bootJar {
+  //  baseName = 'gs-actuator-service'
+    //version =  '0.1.0'
+//}
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	//compile("org.springframework.boot:spring-boot-starter-actuator")
+	compile('org.springframework.boot:spring-boot-starter-data-rest')
+	compile("org.springframework.boot:spring-boot-devtools")
+	runtime('com.h2database:h2')
+	runtime('org.postgresql:postgresql')
+	compile group: 'org.apache.openjpa', name: 'openjpa-all', version: '2.4.1'
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.3.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.3.0'
+}
